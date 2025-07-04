@@ -24,3 +24,11 @@ def Challenge_Fixed_XOR(input1: str, input2: str, xor_output: str):
 )])
 def Challenge_Single_byte_XOR_cipher(input: str, output: str):
     assert main.Single_byte_XOR_cipher(input) == output
+    
+
+@pytest.mark.parametrize("input_file, output", [(
+    "SingleByteXorDetectProblem.txt",
+    "Now that the party is jumping\n",
+)])
+def Challenge_Detect_single_character_XOR(input_file: str, output: str):
+    assert main.Detect_single_character_XOR(input_file) == output
