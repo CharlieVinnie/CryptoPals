@@ -18,7 +18,9 @@ def Challenge_Fixed_XOR(input1: str, input2: str, xor_output: str):
     assert main.Fixed_XOR(input1,input2) == xor_output
     
 
-@pytest.mark.parametrize("input", [(
+@pytest.mark.parametrize("input, output", [(
     "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736",
+    "Cooking MC's like a pound of bacon",
 )])
-def Challenge_Single_byte_XOR_cipher
+def Challenge_Single_byte_XOR_cipher(input: str, output: str):
+    assert main.Single_byte_XOR_cipher(input) == output
