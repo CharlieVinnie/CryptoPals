@@ -1,12 +1,13 @@
 from HexString import HexString
 from EnglishString import EnglishString
 from EnglishIdentifier import LetterFrequencyCalculator
+from SingleByteXorEncoder import SingleByteXorEncoder
 
 def cipher_single_xored_HexString_and_rank_by_likeliness(hex: HexString):
     result: list[EnglishString] = []
     
     for key in range(256):
-        decoded_hex = hex ^ HexString(key.to_bytes(1,'big')*len(hex))
+        decoded_hex = SingleByteXorEncoder.encode(hex, HexString(key.to_bytes(1,'big')))
         try:
             result.append(decoded_hex.to_english_string())
         except UnicodeDecodeError:

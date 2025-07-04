@@ -24,3 +24,6 @@ def Detect_single_character_XOR(input_file: str):
         input_list = [HexString.from_str(string.strip()) for string in file]
     result = detect_single_byte_xored_HexString(input_list)
     return str(result)
+
+def Implement_repeating_key_XOR(input: str, key: str):
+    return input

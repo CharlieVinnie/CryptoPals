@@ -32,3 +32,18 @@ def Challenge_Single_byte_XOR_cipher(input: str, output: str):
 )])
 def Challenge_Detect_single_character_XOR(input_file: str, output: str):
     assert main.Detect_single_character_XOR(input_file) == output
+    
+
+@pytest.mark.parametrize("input, key, output",[
+    (
+        "Burning 'em, if you ain't quick and nimble",
+        "ICE",
+        "0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272765272",
+    ),
+    (
+        "I go crazy when I hear a cymbal",
+        "ICE",
+        "a282b2f20430a652e2c652a3124333a653e2b2027630c692b20283165286326302e27282f",
+    )])
+def Challenge_Implement_repeating_key_XOR(input: str, key: str, output: str):
+    assert main.Implement_repeating_key_XOR(input, key) == output
