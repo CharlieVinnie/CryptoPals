@@ -53,12 +53,13 @@ class LetterFrequencyCalculator(EnglishIdentifier):
                 letter: str
                 freq: str
                 cls.english_letter_frequency[ord(letter.strip().lower()) - ord('a')] = float(freq)
+        
+        cls.english_letter_frequency = [freq/sum(cls.english_letter_frequency) for freq in cls.english_letter_frequency]
     
     @classmethod
     def likeliness(cls, letter_frequency: list[float]) -> float:
         cls.load_english_letter_frequency()
-        letter_frequency_sum = sum(letter_frequency)
-        return sum(abs(cls.english_letter_frequency[i] - letter_frequency[i]/letter_frequency_sum) for i in range(26))
+        return sum(abs(cls.english_letter_frequency[i] - letter_frequency[i]/sum(letter_frequency)) for i in range(26))
     
     @classmethod
     def identify(cls, text: EnglishString) -> LetterFrequencyIdentifyResult:
@@ -71,7 +72,7 @@ class LetterFrequencyCalculator(EnglishIdentifier):
                 continue
             elif letter.isalpha():
                 letter_frequency[ord(letter.lower()) - ord('a')] += 1.0
-            elif not letter.isprintable():
+            elif not letter.isprintable() and letter != '\n':
                 bad_text = True
             else:
                 strange_characters += 1

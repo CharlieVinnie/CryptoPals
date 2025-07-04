@@ -16,8 +16,8 @@ def CipherSingleXoredHexStringAndRankByLikeliness(hex: HexString):
     return result
 
 def CipherSingleXoredHexString(hex: HexString):
-    return CipherSingleXoredHexStringAndRankByLikeliness(hex)[-1]
-
-if __name__ == "__main__":
-    code = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
-    print(CipherSingleXoredHexString(HexString.from_str(code)))
+    result_list = CipherSingleXoredHexStringAndRankByLikeliness(hex)
+    if len(result_list) == 0:
+        return None
+    else:
+        return CipherSingleXoredHexStringAndRankByLikeliness(hex)[-1]
