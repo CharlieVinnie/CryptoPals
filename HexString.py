@@ -7,8 +7,12 @@ class HexString:
         self.content = bytes
 
     @classmethod
-    def from_str(cls, string: str):
+    def from_hex_str(cls, string: str):
         return cls(bytes.fromhex(string))
+    
+    @classmethod
+    def from_raw_str(cls, string: str):
+        return cls(string.encode('ascii'))
 
     def __bytes__(self):
         return self.content
