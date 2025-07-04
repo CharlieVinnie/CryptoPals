@@ -3,6 +3,7 @@ from HexString import HexString
 from SingleByteXorCipherer import cipher_single_xored_HexString
 from SingleByteXorDetecter import detect_single_byte_xored_HexString
 from RepeatingKeyXorEncoder import RepeatingKeyXorEncoder
+from RepeatingXorBreaker import hamming_distance # type: ignore
 
 def Convert_hex_to_base64(string: str):
     hex = HexString.from_hex_str(string)

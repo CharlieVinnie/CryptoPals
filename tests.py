@@ -42,3 +42,8 @@ def Challenge_Detect_single_character_XOR(input_file: str, output: str):
 )])
 def Challenge_Implement_repeating_key_XOR(input: str, key: str, output: str):
     assert main.Implement_repeating_key_XOR(input, key) == output
+    
+
+@pytest.mark.parametrize("a,b,dist", [("this is a test", "wokka wokka!!!",37)])
+def test_hamming_distance(a: str, b: str, dist: int):
+    assert main.hamming_distance(main.HexString.from_raw_str(a), main.HexString.from_raw_str(b)) == dist
