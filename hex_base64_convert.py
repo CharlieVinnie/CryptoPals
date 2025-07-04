@@ -15,10 +15,9 @@ class Base64String:
     
     def to_bytes(self):
         return self.content
+    
+    def to_string(self):
+        return self.content.decode('ANSI')
 
 def hex_to_base64(hex_string: HexString):
     return Base64String(base64.b64encode(hex_string.to_bytes()))
-
-if __name__ == "__main__":
-    print(hex_to_base64(HexString(input())).to_bytes())
-    
