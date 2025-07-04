@@ -7,3 +7,12 @@ import main
 )])
 def Challenge_Convert_hex_to_base64(hex_input: str, base64_output: str):
     assert main.Convert_hex_to_base64(hex_input) == base64_output
+
+
+@pytest.mark.parametrize("input1, input2, xor_output", [(
+    "1c0111001f010100061a024b53535009181c",
+    "686974207468652062756c6c277320657965",
+    "746865206b696420646f6e277420706c6179"
+)])
+def Challenge_Fixed_XOR(input1: str, input2: str, xor_output: str):
+    assert main.Fixed_XOR(input1,input2) == xor_output
