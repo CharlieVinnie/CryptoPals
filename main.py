@@ -1,7 +1,7 @@
 from Base64String import Base64String
 from HexString import HexString
-from SingleByteXorCipherer import CipherSingleXoredHexString
-from SingleByteXorDetecter import DetectSingleByteXoredHexString
+from SingleByteXorCipherer import cipher_single_xored_HexString
+from SingleByteXorDetecter import detect_single_byte_xored_HexString
 
 def Convert_hex_to_base64(string: str):
     hex = HexString.from_str(string)
@@ -16,11 +16,11 @@ def Fixed_XOR(input1: str, input2: str):
 
 def Single_byte_XOR_cipher(input: str):
     hex = HexString.from_str(input)
-    result = CipherSingleXoredHexString(hex)
+    result = cipher_single_xored_HexString(hex)
     return str(result)
 
 def Detect_single_character_XOR(input_file: str):
     with open(input_file) as file:
         input_list = [HexString.from_str(string.strip()) for string in file]
-    result = DetectSingleByteXoredHexString(input_list)
+    result = detect_single_byte_xored_HexString(input_list)
     return str(result)

@@ -2,7 +2,7 @@ from HexString import HexString
 from EnglishString import EnglishString
 from EnglishIdentifier import LetterFrequencyCalculator
 
-def CipherSingleXoredHexStringAndRankByLikeliness(hex: HexString):
+def cipher_single_xored_HexString_and_rank_by_likeliness(hex: HexString):
     result: list[EnglishString] = []
     
     for key in range(256):
@@ -15,9 +15,9 @@ def CipherSingleXoredHexStringAndRankByLikeliness(hex: HexString):
     result.sort(key=LetterFrequencyCalculator.identify)
     return result
 
-def CipherSingleXoredHexString(hex: HexString):
-    result_list = CipherSingleXoredHexStringAndRankByLikeliness(hex)
+def cipher_single_xored_HexString(hex: HexString):
+    result_list = cipher_single_xored_HexString_and_rank_by_likeliness(hex)
     if len(result_list) == 0:
         return None
     else:
-        return CipherSingleXoredHexStringAndRankByLikeliness(hex)[-1]
+        return cipher_single_xored_HexString_and_rank_by_likeliness(hex)[-1]
