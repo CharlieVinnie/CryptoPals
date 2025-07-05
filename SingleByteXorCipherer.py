@@ -19,9 +19,9 @@ def cipher_single_xored_HexString_and_rank_by_likeliness(hex: HexString):
 def cipher_single_xored_HexString(hex: HexString):
     result_list = cipher_single_xored_HexString_and_rank_by_likeliness(hex)
     if len(result_list) == 0:
-        return None
+        return EnglishString.illegal_string()
     else:
         result = result_list[-1]
         if LetterFrequencyCalculator.is_bad_text(result):
-            return None
+            return EnglishString.illegal_string()
         return result

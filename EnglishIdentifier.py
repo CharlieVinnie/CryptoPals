@@ -68,6 +68,9 @@ class LetterFrequencyCalculator(EnglishIdentifier):
     
     @classmethod
     def identify(cls, text: EnglishString) -> LetterFrequencyIdentifyResult:
+        if text.illegal:
+            return LetterFrequencyIdentifyResult.bad_result()
+        
         letter_frequency = [0.0 for _ in range(26)]
         strange_characters = 0
         bad_text = False
