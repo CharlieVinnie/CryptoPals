@@ -26,7 +26,7 @@ def guess_repeating_xor_key_size(input: HexString, max_size: int = 5):
     distances.sort()
     return [k for (_,k) in distances]
 
-def break_repeating_key_xor(input: HexString, max_size: int = 40, check_key_size_count: int = 40):
+def break_repeating_key_xor(input: HexString, max_size: int = 40, check_key_size_count: int = 3):
     key_sizes = guess_repeating_xor_key_size(input, max_size)
     key_sizes = key_sizes[:check_key_size_count]
     result = [break_repeating_key_xor_with_key_size(input, key_size) for key_size in key_sizes]
