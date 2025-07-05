@@ -8,6 +8,7 @@ from file_loader import load_file_as_string_list, load_file_as_single_string
 from RepeatingKeyXorBreaker import break_repeating_key_xor
 from AESinECBdecoder import AES_128_ECB_decode
 from AESinECBdetector import find_most_likely_AES_in_ECB_in
+from AESinCBCencoder import add_padding_PKCS_7
 
 def Convert_hex_to_base64(string: str):
     hex = HexString.from_hex_str(string)
@@ -48,3 +49,7 @@ def Detect_AES_in_ECB_mode(input_file: str):
     input_list = [HexString.from_hex_str(string) for string in load_file_as_string_list(input_file)]
     result = find_most_likely_AES_in_ECB_in(input_list)
     return str(result)
+
+def Implement_PKCS_7_padding(input: str, padding_size: int):
+    result = add_padding_PKCS_7(HexString.from_raw_str(input), padding_size)
+    return str(result.to_english_string())

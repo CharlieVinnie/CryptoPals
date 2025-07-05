@@ -28,6 +28,9 @@ class HexString:
     def __len__(self):
         return len(self.content)
     
+    def __add__(self, other: HexString):
+        return HexString(self.content + other.content)
+    
     def __xor__(self, other: HexString):
         if len(self.content) != len(other.content):
             raise ValueError(f"Different Lengths when xoring HexString")

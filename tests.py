@@ -72,3 +72,12 @@ def Challenge_AES_in_ECB_mode(input_file: str, output_file: str):
 )])
 def Challenge_Detect_AES_in_ECB_mode(input_file: str, output_file: str):
     assert main.Detect_AES_in_ECB_mode(input_file) == load_file_as_it_is(output_file)
+    
+
+@pytest.mark.parametrize("input,padding_size,output",[(
+    "YELLOW SUBMARINE",
+    20,
+    "YELLOW SUBMARINE\x04\x04\x04\x04",
+)])
+def Challenge_Implement_PKCS_7_padding(input: str, padding_size: int, output: str):
+    assert main.Implement_PKCS_7_padding(input, padding_size) == output
