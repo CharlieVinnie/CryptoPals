@@ -4,6 +4,7 @@ from SingleByteXorCipherer import cipher_single_xored_HexString
 from SingleByteXorDetecter import detect_single_byte_xored_HexString
 from RepeatingKeyXorEncoder import RepeatingKeyXorEncoder
 from RepeatingXorBreaker import hamming_distance # type: ignore
+from file_loader import load_file_as_string_list
 
 def Convert_hex_to_base64(string: str):
     hex = HexString.from_hex_str(string)
@@ -22,8 +23,7 @@ def Single_byte_XOR_cipher(input: str):
     return str(result)
 
 def Detect_single_character_XOR(input_file: str):
-    with open(input_file) as file:
-        input_list = [HexString.from_hex_str(string.strip()) for string in file]
+    input_list = [HexString.from_hex_str(string) for string in load_file_as_string_list(input_file)]
     result = detect_single_byte_xored_HexString(input_list)
     return str(result)
 
