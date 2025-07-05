@@ -6,6 +6,7 @@ from RepeatingKeyXorEncoder import RepeatingKeyXorEncoder
 from RepeatingKeyXorBreaker import hamming_distance # type: ignore
 from file_loader import load_file_as_string_list, load_file_as_single_string
 from RepeatingKeyXorBreaker import break_repeating_key_xor
+from AESDecoder import AES_128_ECB_decode
 
 def Convert_hex_to_base64(string: str):
     hex = HexString.from_hex_str(string)
@@ -36,3 +37,8 @@ def Break_repeating_key_XOR(input_file: str):
     input = HexString.from_base64_str(load_file_as_single_string(input_file))
     result = break_repeating_key_xor(input)
     return str(result)
+
+def AES_in_ECB_mode(input_file: str):
+    input = HexString.from_base64_str(load_file_as_single_string(input_file))
+    result = AES_128_ECB_decode(input, HexString.from_raw_str("YELLOW SUBMARINE"))
+    return str(result.to_english_string())

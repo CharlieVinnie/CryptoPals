@@ -56,3 +56,11 @@ def test_hamming_distance(a: str, b: str, dist: int):
 )])
 def Challenge_Break_repeating_key_XOR(input_file: str, output_file: str):
     assert main.Break_repeating_key_XOR(input_file) == load_file_as_it_is(output_file)
+    
+
+@pytest.mark.parametrize("input_file, output_file",[(
+    "AESinECBnaiveDecode.txt",
+    "AESinECBnaiveDecodeSolution.txt",
+)])
+def Challenge_AES_in_ECB_mode(input_file: str, output_file: str):
+    assert main.AES_in_ECB_mode(input_file) == load_file_as_it_is(output_file)
