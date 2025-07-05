@@ -1,5 +1,6 @@
 from __future__ import annotations
 from EnglishString import EnglishString
+import base64
 
 class HexString:
 
@@ -13,6 +14,10 @@ class HexString:
     @classmethod
     def from_raw_str(cls, string: str):
         return cls(string.encode('ascii'))
+    
+    @classmethod
+    def from_base64_str(cls, string: str):
+        return cls(base64.b64decode(string))
 
     def __bytes__(self):
         return self.content

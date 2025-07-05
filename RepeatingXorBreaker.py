@@ -1,6 +1,7 @@
 from HexString import HexString
 from SingleByteXorCipherer import cipher_single_xored_HexString
 from file_loader import load_file_as_single_string
+from Base64String import Base64String
 
 def hamming_distance(a: HexString, b: HexString):
     return sum( (x^y).bit_count() for (x,y) in zip(bytes(a), bytes(b)) )
@@ -24,4 +25,4 @@ def guess_repeating_xor_key_size(input: HexString, max_size: int = 40):
 
 if __name__ == "__main__":
     input = load_file_as_single_string("RepeatingXorBreakingProblem.txt")
-    # print(guess_repeating_xor_key_size())
+    print(guess_repeating_xor_key_size(HexString(bytes(Base64String(input))))) # TODO: add Base
