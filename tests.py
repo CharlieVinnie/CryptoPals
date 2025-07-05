@@ -64,3 +64,11 @@ def Challenge_Break_repeating_key_XOR(input_file: str, output_file: str):
 )])
 def Challenge_AES_in_ECB_mode(input_file: str, output_file: str):
     assert main.AES_in_ECB_mode(input_file) == load_file_as_it_is(output_file)
+    
+
+@pytest.mark.parametrize("input_file, output_file",[(
+    "AESinECBdetectionProblem.txt",
+    "AESinECBdetectionSolution.txt",
+)])
+def Challenge_Detect_AES_in_ECB_mode(input_file: str, output_file: str):
+    assert main.Detect_AES_in_ECB_mode(input_file) == load_file_as_it_is(output_file)
