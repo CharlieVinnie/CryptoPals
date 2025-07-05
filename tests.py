@@ -1,5 +1,6 @@
 import pytest
 import main
+from file_loader import load_file_as_it_is
 
 @pytest.mark.parametrize("hex_input, base64_output", [(
     "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d",
@@ -47,3 +48,11 @@ def Challenge_Implement_repeating_key_XOR(input: str, key: str, output: str):
 @pytest.mark.parametrize("a,b,dist", [("this is a test", "wokka wokka!!!",37)])
 def test_hamming_distance(a: str, b: str, dist: int):
     assert main.hamming_distance(main.HexString.from_raw_str(a), main.HexString.from_raw_str(b)) == dist
+    
+
+@pytest.mark.parametrize("input_file, output_file",[(
+    "RepeatingKeyXorBreakingProblem.txt",
+    "RepeatingKeyXorBreakingSolution.txt",
+)])
+def Challenge_Break_repeating_key_XOR(input_file: str, output_file: str):
+    assert main.Break_repeating_key_XOR(input_file) == load_file_as_it_is(output_file)

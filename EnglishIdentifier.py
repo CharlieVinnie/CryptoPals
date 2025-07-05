@@ -13,8 +13,13 @@ class EnglishIdentifier(ABC):
     @classmethod
     @abstractmethod
     def identify(cls, text: EnglishString) -> IdentifyResult: pass
+    
+    @classmethod
+    @abstractmethod
+    def is_bad_text(cls, text: EnglishString) -> bool: pass
 
 
+# TODO: Better the indentify logic
 class LetterFrequencyIdentifyResult(IdentifyResult):
 
     def __init__(self, likeliness: float, strange_characters: int, bad_text: bool):
@@ -82,7 +87,9 @@ class LetterFrequencyCalculator(EnglishIdentifier):
         
         return LetterFrequencyIdentifyResult(cls.likeliness(letter_frequency), strange_characters, False)
         
-        
+    @classmethod
+    def is_bad_text(cls, text: EnglishString) -> bool:
+        return cls.identify(text).bad_text
         
     
     
