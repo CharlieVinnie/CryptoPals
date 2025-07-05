@@ -3,7 +3,7 @@ from HexString import HexString
 from SingleByteXorCipherer import cipher_single_xored_HexString
 from SingleByteXorDetecter import detect_single_byte_xored_HexString
 from RepeatingKeyXorEncoder import RepeatingKeyXorEncoder
-from RepeatingKeyXorBreaker import hamming_distance # type: ignore
+from hamming_distance import hamming_distance # type: ignore
 from file_loader import load_file_as_string_list, load_file_as_single_string
 from RepeatingKeyXorBreaker import break_repeating_key_xor
 from AESinECBdecoder import AES_128_ECB_decode

@@ -4,9 +4,7 @@ from file_loader import load_file_as_single_string
 from EnglishIdentifier import LetterFrequencyCalculator
 from EnglishString import EnglishString
 from itertools import chain, zip_longest
-
-def hamming_distance(a: HexString, b: HexString):
-    return sum( (x^y).bit_count() for (x,y) in zip(bytes(a), bytes(b)) )
+from hamming_distance import hamming_distance
 
 # TODO: make EnglishString contain illegal strings
 def break_repeating_key_xor_with_key_size(input: HexString, key_size: int):
