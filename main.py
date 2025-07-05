@@ -6,7 +6,7 @@ from RepeatingKeyXorEncoder import RepeatingKeyXorEncoder
 from RepeatingKeyXorBreaker import hamming_distance # type: ignore
 from file_loader import load_file_as_string_list, load_file_as_single_string
 from RepeatingKeyXorBreaker import break_repeating_key_xor
-from AESDecoder import AES_128_ECB_decode
+from AESinECBdecoder import AES_128_ECB_decode
 
 def Convert_hex_to_base64(string: str):
     hex = HexString.from_hex_str(string)
