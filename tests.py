@@ -81,3 +81,11 @@ def Challenge_Detect_AES_in_ECB_mode(input_file: str, output_file: str):
 )])
 def Challenge_Implement_PKCS_7_padding(input: str, padding_size: int, output: str):
     assert main.Implement_PKCS_7_padding(input, padding_size) == output
+    
+
+@pytest.mark.parametrize("input_file,output_file",[(
+    "AESinCBCnaiveDecode.txt",
+    "AESinCBCnaiveDecodeSolution.txt",
+)])
+def Challenge_Implement_CBC_mode(input_file: str, output_file: str):
+    assert main.AES_in_CBC_mode(input_file) == load_file_as_it_is(output_file)

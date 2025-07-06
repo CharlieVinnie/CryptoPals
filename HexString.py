@@ -1,6 +1,7 @@
 from __future__ import annotations
 from EnglishString import EnglishString
 import base64
+from typing import overload
 
 class HexString:
 
@@ -27,6 +28,18 @@ class HexString:
     
     def __len__(self):
         return len(self.content)
+    
+    @overload
+    def __getitem__(self, index: slice) -> HexString: ...
+    
+    @overload
+    def __getitem__(self, index: int) -> int: ...
+    
+    def __getitem__(self, index: slice | int):
+        if isinstance(index, slice):
+            return HexString(self.content[index])
+        else:
+            return self.content[index]
     
     def __add__(self, other: HexString):
         return HexString(self.content + other.content)
