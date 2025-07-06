@@ -12,6 +12,8 @@ def random_ECB_or_CBC_encrypt(input: HexString):
     input = rand_hex_string(5,10) + input + rand_hex_string(5,10)
     
     if randint(0,1) == 0:
-        return AES_128_ECB_encrypt(input, rand_hex_string(16,16))
+        result = AES_128_ECB_encrypt(input, rand_hex_string(16,16))
+        return (result, "ECB")
     else:
-        return AES_128_CBC_encrypt(input, rand_hex_string(16,16), rand_hex_string(16,16))
+        result = AES_128_CBC_encrypt(input, rand_hex_string(16,16), rand_hex_string(16,16))
+        return (result, "CBC")
