@@ -7,9 +7,9 @@ from file_loader import load_file_as_single_string
 def AES_128_ECB_encrypt(input: HexString, key: HexString):
     cipher = Cipher(algorithms.AES(key.content), modes.ECB(), default_backend())
     encryptor = cipher.encryptor()
-    result = encryptor.update(input.content) + encryptor.finalize()
     padder = padding.PKCS7(128).padder()
-    result = padder.update(result) + padder.finalize()
+    input = HexString(padder.update(bytes(input)) + padder.finalize())
+    result = encryptor.update(input.content) + encryptor.finalize()
     return HexString(result)
 
 def AES_128_ECB_decrypt(input: HexString, key: HexString):

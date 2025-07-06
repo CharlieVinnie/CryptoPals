@@ -1,6 +1,7 @@
 import pytest
 import main
 from file_loader import load_file_as_it_is
+import random
 
 @pytest.mark.parametrize("hex_input, base64_output", [(
     "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d",
@@ -89,3 +90,20 @@ def Challenge_Implement_PKCS_7_padding(input: str, padding_size: int, output: st
 )])
 def Challenge_Implement_CBC_mode(input_file: str, output_file: str):
     assert main.AES_in_CBC_mode(input_file) == load_file_as_it_is(output_file)
+    
+
+@pytest.mark.parametrize("seed, rounds", [(330312,30)])
+@pytest.mark.parametrize("english_text_file",[
+    "English_text/1.txt",
+    "English_text/2.txt",
+    "English_text/3.txt",
+])
+def Challenge_ECB_CBC_detection_oracle(seed: int, rounds: int, english_text_file: str):
+    from RandomECBorCBCencryptor import random_ECB_or_CBC_encrypt
+    from HexString import HexString
+    rng = random.Random(seed)
+    for _ in range(rounds):
+        text = load_file_as_it_is(english_text_file)
+        hex = HexString.from_raw_str(text)
+        (input, type) = random_ECB_or_CBC_encrypt(hex, rng)
+        assert main.ECB_CBC_detection_oracle(input) == type

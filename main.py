@@ -9,6 +9,7 @@ from RepeatingKeyXorBreaker import break_repeating_key_xor
 from AESinECB import AES_128_ECB_decrypt
 from AESinECBdetector import find_most_likely_AES_in_ECB_in
 from AESinCBC import add_padding_PKCS_7, AES_128_CBC_decrypt
+from ECBorCBCdetectionOracle import ECB_or_CBC_detection_oracle
 
 def Convert_hex_to_base64(string: str):
     hex = HexString.from_hex_str(string)
@@ -58,3 +59,6 @@ def AES_in_CBC_mode(input_file: str):
     input = HexString.from_base64_str(load_file_as_single_string(input_file))
     result = AES_128_CBC_decrypt(input, HexString.from_raw_str("YELLOW SUBMARINE"), HexString((0).to_bytes(16, 'big')))
     return str(result.to_english_string())
+
+def ECB_CBC_detection_oracle(input: HexString):
+    return ECB_or_CBC_detection_oracle(input)
