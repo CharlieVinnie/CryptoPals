@@ -4,7 +4,15 @@ from cryptography.hazmat.primitives import padding
 from HexString import HexString
 from file_loader import load_file_as_single_string
 
-def AES_128_ECB_decode(input: HexString, key: HexString):
+def AES_128_ECB_encrypt(input: HexString, key: HexString):
+    cipher = Cipher(algorithms.AES(key.content), modes.ECB(), default_backend())
+    encryptor = cipher.encryptor()
+    result = encryptor.update(input.content) + encryptor.finalize()
+    padder = padding.PKCS7(128).padder()
+    result = padder.update(result) + padder.finalize()
+    return HexString(result)
+
+def AES_128_ECB_decrypt(input: HexString, key: HexString):
     cipher = Cipher(algorithms.AES(key.content), modes.ECB(), default_backend())
     decryptor = cipher.decryptor()
     result = decryptor.update(input.content) + decryptor.finalize()
@@ -15,5 +23,5 @@ def AES_128_ECB_decode(input: HexString, key: HexString):
 if __name__ == "__main__":
     input = HexString.from_base64_str(load_file_as_single_string("AESinECBnaiveDecode.txt"))
     with open("AESinECBnaiveDecodeSolution.txt", 'w') as file:
-        hex_result = AES_128_ECB_decode(input, HexString.from_raw_str("YELLOW SUBMARINE"))
+        hex_result = AES_128_ECB_decrypt(input, HexString.from_raw_str("YELLOW SUBMARINE"))
         print(hex_result.to_english_string(),file=file,end="")
