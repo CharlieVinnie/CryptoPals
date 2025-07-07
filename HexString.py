@@ -20,6 +20,10 @@ class HexString:
     def from_base64_str(cls, string: str):
         return cls(base64.b64decode(string))
 
+    @classmethod
+    def null(cls):
+        return cls(b'')
+
     def __bytes__(self):
         return self.content
     
