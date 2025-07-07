@@ -44,6 +44,9 @@ class HexString:
     def __add__(self, other: HexString):
         return HexString(self.content + other.content)
     
+    def __mul__(self, times: int):
+        return HexString(self.content * times)
+    
     def __xor__(self, other: HexString):
         if len(self.content) != len(other.content):
             raise ValueError(f"Different Lengths when xoring HexString")
