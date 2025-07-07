@@ -19,7 +19,7 @@ class Base64String:
 
     @classmethod
     def from_base64_str(cls, string: str):
-        return cls(base64.b64decode(string))
+        return cls(string.encode('ascii'))
     
     def to_english_string(self):
         return EnglishString(self.content.decode('ascii'))
