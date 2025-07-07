@@ -52,5 +52,10 @@ class HexString:
             raise ValueError(f"Different Lengths when xoring HexString")
         return HexString(bytes(x^y for (x,y) in zip(self.content, other.content)))
     
+    def __eq__(self, other: object):
+        if not isinstance(other, HexString):
+            return NotImplemented
+        return self.content == other.content
+    
     def to_english_string(self):
         return EnglishString(self.content.decode('ascii'))
