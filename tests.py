@@ -1,7 +1,12 @@
 import pytest
 import main
-from file_loader import load_file_as_it_is
+from file_loader import load_file_as_it_is, load_file_as_single_string
 import random
+from RandomECBorCBCencryptor import random_ECB_or_CBC_encrypt
+from HexString import HexString
+from NaiveAppendingECBencryption import NaiveAppendingECBencryption
+from EnglishString import EnglishString
+from Base64String import Base64String
 
 @pytest.mark.parametrize("hex_input, base64_output", [(
     "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d",
@@ -99,11 +104,16 @@ def Challenge_Implement_CBC_mode(input_file: str, output_file: str):
     "English_text/3.txt",
 ])
 def Challenge_ECB_CBC_detection_oracle(seed: int, rounds: int, english_text_file: str):
-    from RandomECBorCBCencryptor import random_ECB_or_CBC_encrypt
-    from HexString import HexString
     rng = random.Random(seed)
     for _ in range(rounds):
         text = load_file_as_it_is(english_text_file)
         hex = HexString.from_raw_str(text)
         (input, type) = random_ECB_or_CBC_encrypt(hex, rng)
         assert main.ECB_CBC_detection_oracle(input) == type
+        
+
+@pytest.mark.parametrize("secret_file",["Byte_at_a_time_ECB_decryption_simple_problem.txt"])
+def Challenge_Byte_at_a_time_ECB_decryption_simple(secret_file: str):
+    secret_string_in_base64 = load_file_as_single_string(secret_file)
+    oracle = NaiveAppendingECBencryption.create(HexString.from_base64_str(secret_string_in_base64))
+    assert main.Byte_at_a_time_ECB_decryption_simple(oracle) == str(Base64String.from_base64_str(secret_string_in_base64))

@@ -1,5 +1,6 @@
 import base64
 from HexString import HexString
+from EnglishString import EnglishString
 
 class Base64String:
 
@@ -19,3 +20,6 @@ class Base64String:
     @classmethod
     def from_base64_str(cls, string: str):
         return cls(base64.b64decode(string))
+    
+    def to_english_string(self):
+        return EnglishString(self.content.decode('ascii'))

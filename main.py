@@ -10,6 +10,8 @@ from AESinECB import AES_128_ECB_decrypt
 from AESinECBdetector import find_most_likely_AES_in_ECB_in
 from AESinCBC import add_padding_PKCS_7, AES_128_CBC_decrypt
 from ECBorCBCdetectionOracle import ECB_or_CBC_detection_oracle
+from NaiveAppendingECBencryption import NaiveAppendingECBencryption
+from NaiveAppendingECBbreaker import naive_appending_ECB_breaker
 
 def Convert_hex_to_base64(string: str):
     hex = HexString.from_hex_str(string)
@@ -62,3 +64,6 @@ def AES_in_CBC_mode(input_file: str):
 
 def ECB_CBC_detection_oracle(input: HexString):
     return ECB_or_CBC_detection_oracle(input)
+
+def Byte_at_a_time_ECB_decryption_simple(oracle: NaiveAppendingECBencryption):
+    return ""

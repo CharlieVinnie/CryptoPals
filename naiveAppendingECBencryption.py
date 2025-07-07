@@ -1,11 +1,17 @@
-from file_loader import load_file_as_single_string
 from HexString import HexString
+from AESinECB import AES_128_ECB_encrypt
+from rand_hex_string import rand_hex_string
 
 class NaiveAppendingECBencryption:
-        
-    secret_string = load_file_as_single_string("Byte_at_a_time_ECB_decryption_Simple_secret.txt")
+    
+    def __init__(self, secret: HexString, key: HexString):
+        self.secret = secret
+        self.key = key
     
     def encrypt(self, input: HexString):
-        input = input + HexString.from_base64_str(self.secret_string)
-        
+        input = input + self.secret
+        return AES_128_ECB_encrypt(input,self.key)
     
+    @classmethod
+    def create(cls, secret: HexString):
+        return cls(secret, rand_hex_string(16,16))
