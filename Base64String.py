@@ -12,6 +12,11 @@ class Base64String:
     
     def __str__(self):
         return self.content.decode('ascii')
+    
+    def __eq__(self, other: object):
+        if not isinstance(other, Base64String):
+            return NotImplemented
+        return self.content == other.content
 
     @classmethod
     def from_hex(cls, hex: HexString):
