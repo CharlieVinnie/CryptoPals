@@ -11,7 +11,7 @@ from AESinECBdetector import find_most_likely_AES_in_ECB_in
 from AESinCBC import add_padding_PKCS_7, AES_128_CBC_decrypt
 from ECBorCBCdetectionOracle import ECB_or_CBC_detection_oracle
 from NaiveAppendingECBencryption import NaiveAppendingECBencryption
-from NaiveAppendingECBbreaker import naive_appending_ECB_breaker
+from NaiveAppendingECBsecretBreaker import naive_appending_ECB_secret_breaker
 
 def Convert_hex_to_base64(string: str):
     hex = HexString.from_hex_str(string)
@@ -66,4 +66,6 @@ def ECB_CBC_detection_oracle(input: HexString):
     return ECB_or_CBC_detection_oracle(input)
 
 def Byte_at_a_time_ECB_decryption_simple(oracle: NaiveAppendingECBencryption):
-    return ""
+    result = Base64String.from_hex(naive_appending_ECB_secret_breaker(oracle))
+    print(str(result))
+    return result

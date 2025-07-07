@@ -116,4 +116,4 @@ def Challenge_ECB_CBC_detection_oracle(seed: int, rounds: int, english_text_file
 def Challenge_Byte_at_a_time_ECB_decryption_simple(secret_file: str):
     secret_string_in_base64 = load_file_as_single_string(secret_file)
     oracle = NaiveAppendingECBencryption.create(HexString.from_base64_str(secret_string_in_base64))
-    assert main.Byte_at_a_time_ECB_decryption_simple(oracle) == str(Base64String.from_base64_str(secret_string_in_base64))
+    assert main.Byte_at_a_time_ECB_decryption_simple(oracle) == Base64String.from_base64_str(secret_string_in_base64)
