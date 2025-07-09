@@ -1,6 +1,5 @@
 from ECBkeqvHackee import ECBkeqvHackee
 from HexString import HexString
-from Profile import Profile
 from random import randint
 from paddingPKCS7 import add_padding_PKCS_7
 
