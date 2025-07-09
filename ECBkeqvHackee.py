@@ -8,25 +8,25 @@ from random import randint
 
 class ECBkeqvHackee:
     def __init__(self):
-        self.key = rand_hex_string(16,16)
-        self.profile_creator = ProfileCreator(
+        self._key = rand_hex_string(16,16)
+        self._profile_creator = ProfileCreator(
             {"uid": lambda: str(randint(0,100)),
              "role": lambda: "user"},
             {"email"}
         )
-        self.transformer = K_eq_v_transformer(rules=[DoesNot.include("&=")])
+        self._transformer = K_eq_v_transformer(rules=[DoesNot.include("&=")])
 
     def _encode_profile_with_email(self, email: str):
-        if not self.transformer.accepts(email):
+        if not self._transformer.accepts(email):
             raise ValueError("email contains illegal characters")
         
-        profile = self.profile_creator.create({"email": email})
-        return self.transformer.encode(profile)
+        profile = self._profile_creator.create({"email": email})
+        return self._transformer.encode(profile)
 
     def profile_for(self, email: str):
         code = self._encode_profile_with_email(email)
-        return AES_128_ECB_encrypt(HexString.from_raw_str(code), self.key)
+        return AES_128_ECB_encrypt(HexString.from_raw_str(code), self._key)
     
     def decrypt_profile(self, ciphertext: HexString):
-        code = AES_128_ECB_decrypt(ciphertext, self.key)
-        return self.transformer.decode(code.to_raw_str())
+        code = AES_128_ECB_decrypt(ciphertext, self._key)
+        return self._transformer.decode(code.to_raw_str())
