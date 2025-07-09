@@ -57,5 +57,8 @@ class HexString:
             return NotImplemented
         return self.content == other.content
     
+    def to_raw_str(self):
+        return self.content.decode('ascii')
+    
     def to_english_string(self):
-        return EnglishString(self.content.decode('ascii'))
+        return EnglishString(self.to_raw_str())
