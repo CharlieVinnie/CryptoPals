@@ -3,14 +3,7 @@ from AESencrypt import AESencrypt
 from AESdecrypt import AESdecrypt
 from block_split import block_split
 from file_loader import load_file_as_single_string
-
-def add_padding_PKCS_7(hex: HexString, size: int):
-    padding_size = size - len(hex) % size
-    return hex + HexString(padding_size.to_bytes(1, 'big')*padding_size)
-
-def remove_padding_PKCS_7(hex: HexString):
-    padding_size = hex[-1]
-    return hex[:-padding_size]
+from paddingPKCS7 import add_padding_PKCS_7, remove_padding_PKCS_7
 
 def AES_128_CBC_encrypt(input: HexString, key: HexString, iv: HexString):
     result = iv
