@@ -138,7 +138,7 @@ def test_ECBkeqvHackeeRejectsInvalidEmail(email: str):
 @pytest.mark.parametrize("email",["1@2.com"])
 def test_ECBkeqvHackeeEncodesInCorrectWay(email: str):
     hackee = ECBkeqvHackee()
-    code = hackee._encode_profile_with_email(email) # type: ignore
+    code = hackee._encode_profile_with_email(email) # pyright: ignore [reportPrivateUsage]
     assert re.match(rf"^email={email}&uid=[0-9]+&role=user$", code)
 
 
