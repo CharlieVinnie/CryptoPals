@@ -5,8 +5,8 @@ import random
 from RandomECBorCBCencryptor import random_ECB_or_CBC_encrypt
 from HexString import HexString
 from NaiveAppendingECBencryption import NaiveAppendingECBencryption
-from EnglishString import EnglishString
 from Base64String import Base64String
+from K_eq_v import K_eq_v
 
 @pytest.mark.parametrize("hex_input, base64_output", [(
     "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d",
@@ -117,3 +117,11 @@ def Challenge_Byte_at_a_time_ECB_decryption_simple(secret_file: str):
     secret_string_in_base64 = load_file_as_single_string(secret_file)
     oracle = NaiveAppendingECBencryption.create(HexString.from_base64_str(secret_string_in_base64))
     assert main.Byte_at_a_time_ECB_decryption_simple(oracle) == Base64String.from_base64_str(secret_string_in_base64)
+    
+
+def Challenge_ECB_cut_and_paste():
+    k_eq_v = K_eq_v()
+    encrypted_profile = main.ECB_cut_and_paste(k_eq_v)
+    profile = k_eq_v.decrypt(encrypted_profile)
+    assert profile["role"] == "admin"
+    

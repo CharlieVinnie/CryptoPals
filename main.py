@@ -12,6 +12,8 @@ from AESinCBC import add_padding_PKCS_7, AES_128_CBC_decrypt
 from ECBorCBCdetectionOracle import ECB_or_CBC_detection_oracle
 from NaiveAppendingECBencryption import NaiveAppendingECBencryption
 from NaiveAppendingECBsecretBreaker import naive_appending_ECB_secret_breaker
+from ECBkeqvCracker import ECBkeqvCracker
+from K_eq_v import K_eq_v
 
 def Convert_hex_to_base64(string: str):
     hex = HexString.from_hex_str(string)
@@ -69,3 +71,6 @@ def Byte_at_a_time_ECB_decryption_simple(oracle: NaiveAppendingECBencryption):
     result = Base64String.from_hex(naive_appending_ECB_secret_breaker(oracle))
     print(str(result))
     return result
+
+def ECB_cut_and_paste(oracle: K_eq_v):
+    return ECBkeqvCracker(oracle)
