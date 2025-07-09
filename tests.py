@@ -7,6 +7,7 @@ from HexString import HexString
 from NaiveAppendingECBencryption import NaiveAppendingECBencryption
 from Base64String import Base64String
 from ECBkeqvHackee import ECBkeqvHackee
+import re
 
 @pytest.mark.parametrize("hex_input, base64_output", [(
     "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d",
@@ -117,6 +118,28 @@ def Challenge_Byte_at_a_time_ECB_decryption_simple(secret_file: str):
     secret_string_in_base64 = load_file_as_single_string(secret_file)
     oracle = NaiveAppendingECBencryption.create(HexString.from_base64_str(secret_string_in_base64))
     assert main.Byte_at_a_time_ECB_decryption_simple(oracle) == Base64String.from_base64_str(secret_string_in_base64)
+
+
+@pytest.mark.parametrize("email",["1@2.com"])
+def test_ECBkeqvHackeeAcceptsValidEmail(email: str):
+    hackee = ECBkeqvHackee()
+    profile = hackee.decrypt_profile(hackee.profile_for(email))
+    assert profile["email"] == email
+    assert profile["role"] == "user"
+    
+
+@pytest.mark.parametrize("email",["1&2.com","1=2.com"])
+def test_ECBkeqvHackeeRejectsInvalidEmail(email: str):
+    hackee = ECBkeqvHackee()
+    with pytest.raises(ValueError):
+        hackee.profile_for(email)
+
+
+@pytest.mark.parametrize("email",["1@2.com"])
+def test_ECBkeqvHackeeEncodesInCorrectWay(email: str):
+    hackee = ECBkeqvHackee()
+    code = hackee._encode_profile_with_email(email) # type: ignore
+    assert re.match(rf"^email={email}&uid=[0-9]+&role=user$", code)
 
 
 def Challenge_ECB_cut_and_paste():

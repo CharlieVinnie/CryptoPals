@@ -16,12 +16,15 @@ class ECBkeqvHackee:
         )
         self.transformer = K_eq_v_transformer(rules=[DoesNot.include("&=")])
 
-    def profile_for(self, email: str):
+    def _encode_profile_with_email(self, email: str):
         if not self.transformer.accepts(email):
             raise ValueError("email contains illegal characters")
         
         profile = self.profile_creator.create({"email": email})
-        code = self.transformer.encode(profile)
+        return self.transformer.encode(profile)
+
+    def profile_for(self, email: str):
+        code = self._encode_profile_with_email(email)
         return AES_128_ECB_encrypt(HexString.from_raw_str(code), self.key)
     
     def decrypt_profile(self, ciphertext: HexString):
