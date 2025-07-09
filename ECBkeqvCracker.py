@@ -1,6 +1,5 @@
-from K_eq_v import K_eq_v
-from Profile import Profile
+from ECBkeqvHackee import ECBkeqvHackee
 from HexString import HexString
 
-def ECBkeqvCracker(oracle: K_eq_v):
+def ECBkeqvCracker(hackee: ECBkeqvHackee):
     return HexString()

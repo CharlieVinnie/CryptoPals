@@ -13,7 +13,7 @@ from ECBorCBCdetectionOracle import ECB_or_CBC_detection_oracle
 from NaiveAppendingECBencryption import NaiveAppendingECBencryption
 from NaiveAppendingECBsecretBreaker import naive_appending_ECB_secret_breaker
 from ECBkeqvCracker import ECBkeqvCracker
-from K_eq_v import K_eq_v
+from ECBkeqvHackee import ECBkeqvHackee
 
 def Convert_hex_to_base64(string: str):
     hex = HexString.from_hex_str(string)
@@ -72,5 +72,5 @@ def Byte_at_a_time_ECB_decryption_simple(oracle: NaiveAppendingECBencryption):
     print(str(result))
     return result
 
-def ECB_cut_and_paste(oracle: K_eq_v):
-    return ECBkeqvCracker(oracle)
+def ECB_cut_and_paste(hackee: ECBkeqvHackee):
+    return ECBkeqvCracker(hackee)
