@@ -1,4 +1,5 @@
 from Base64String import Base64String
+from CBCbitflippingHackee import CBCbitflippingHackee
 from HexString import HexString
 from PKCS7Validator import PKCS_7_validate
 from PreAppendingECBencryption import PreAppendingECBencryption
@@ -85,3 +86,6 @@ def Byte_at_a_time_ECB_decryption_harder(oracle: PreAppendingECBencryption):
 
 def PKCS_7_padding_validation(input: bytes):
     return bytes(PKCS_7_validate(HexString(input)))
+
+def CBC_bitflipping_attacks(hackee: CBCbitflippingHackee):
+    return ""

@@ -1,4 +1,5 @@
 import pytest
+from CBCbitflippingHackee import CBCbitflippingHackee
 from PreAppendingECBencryption import PreAppendingECBencryption
 import main
 from file_loader import load_file_as_it_is, load_file_as_single_string
@@ -167,3 +168,15 @@ def Challenge_PKCS_7_padding_validation(input: bytes, result: None|bytes):
             main.PKCS_7_padding_validation(input)
     else:
         assert main.PKCS_7_padding_validation(input) == result
+        
+
+@pytest.mark.parametrize("prefix,suffix",[(
+    r"comment1=cooking%20MCs;userdata=",
+    r";comment2=%20like%20a%20pound%20of%20bacon",
+)])
+def Challenge_CBC_bitflipping_attacks(prefix: str, suffix: str):
+    hackee = CBCbitflippingHackee(prefix, suffix)
+    userdata = main.CBC_bitflipping_attacks(hackee)
+    profile = hackee.profile_for(userdata)
+    assert profile["admin"] == "true"
+    
