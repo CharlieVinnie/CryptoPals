@@ -46,12 +46,10 @@ def crack_next_byte(oracle: Encryption, secret: HexString, block_size: int):
 def naive_appending_ECB_secret_breaker(oracle: Encryption, max_block_size: int = 64):
     try:
         block_size = crack_block_size(oracle, max_block_size)
-        print(f"Block size: {block_size}")
     except ValueError:
         raise ValueError("oracle is not encrypted with NaiveAppendingECBencryption algorithm")
     
     secret_length = calculate_secret_length(oracle, block_size)
-    print(f"Secret length: {secret_length}")
     secret = HexString()
     
     for _ in range(secret_length):
