@@ -183,6 +183,19 @@ def test_CBCbitflippingHackeeAcceptsValidUserdata(comment1: str, comment2: str, 
     assert profile == {"comment1": comment1, "comment2": comment2, "userdata": userdata}
 
 
+@pytest.mark.parametrize("comment1,comment2",[(
+    r"cooking%20MCs",
+    r"%20like%20a%20pound%20of%20bacon",
+)])
+@pytest.mark.parametrize("userdata",["admin=true","1;admin=true","1+1=2","break;"])
+def test_CBCbitflippingHackeeRejectsInvalidUserdata(comment1: str, comment2: str, userdata: str):
+    prefix = f"comment1={comment1};userdata="
+    suffix = f";comment2={comment2}"
+    hackee = CBCbitflippingHackee(prefix, suffix)
+    with pytest.raises(ValueError):
+        hackee.profile_for(userdata)
+
+
 @pytest.mark.parametrize("prefix,suffix",[(
     r"comment1=cooking%20MCs;userdata=",
     r";comment2=%20like%20a%20pound%20of%20bacon",
