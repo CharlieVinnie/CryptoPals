@@ -1,5 +1,6 @@
 from Base64String import Base64String
 from HexString import HexString
+from PKCS7Validator import PKCS_7_validate
 from PreAppendingECBencryption import PreAppendingECBencryption
 from PreAppendingECBsecretBreaker import pre_appending_ECB_secret_breaker
 from SingleByteXorCipherer import cipher_single_xored_HexString
@@ -83,4 +84,4 @@ def Byte_at_a_time_ECB_decryption_harder(oracle: PreAppendingECBencryption):
     return result
 
 def PKCS_7_padding_validation(input: bytes):
-    return True
+    return bytes(PKCS_7_validate(HexString(input)))

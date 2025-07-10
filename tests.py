@@ -157,9 +157,13 @@ def Challenge_Byte_at_a_time_ECB_decryption_harder(secret_file: str):
     
 
 @pytest.mark.parametrize("input,result",[
-    (b"ICE ICE BABY\x04\x04\x04\x04", True),
-    (b"ICE ICE BABY\x05\x05\x05\x05", False),
-    (b"ICE ICE BABY\x01\x02\x03\x04", False),
+    (b"ICE ICE BABY\x04\x04\x04\x04", b"ICE ICE BABY"),
+    (b"ICE ICE BABY\x05\x05\x05\x05", None),
+    (b"ICE ICE BABY\x01\x02\x03\x04", None),
 ])
-def Challenge_PKCS_7_padding_validation(input: bytes, result: bool):
-    assert main.PKCS_7_padding_validation(input) == result
+def Challenge_PKCS_7_padding_validation(input: bytes, result: None|bytes):
+    if result is None:
+        with pytest.raises(ValueError):
+            main.PKCS_7_padding_validation(input)
+    else:
+        assert main.PKCS_7_padding_validation(input) == result
