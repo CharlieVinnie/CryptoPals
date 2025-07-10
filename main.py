@@ -81,3 +81,6 @@ def Byte_at_a_time_ECB_decryption_harder(oracle: PreAppendingECBencryption):
     result = Base64String.from_hex(pre_appending_ECB_secret_breaker(oracle))
     print(str(result))
     return result
+
+def PKCS_7_padding_validation(input: bytes):
+    return True

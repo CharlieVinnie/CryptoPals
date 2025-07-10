@@ -154,3 +154,12 @@ def Challenge_Byte_at_a_time_ECB_decryption_harder(secret_file: str):
     secret_string_in_base64 = load_file_as_single_string(secret_file)
     oracle = PreAppendingECBencryption.create(HexString.from_base64_str(secret_string_in_base64))
     assert main.Byte_at_a_time_ECB_decryption_harder(oracle) == Base64String.from_base64_str(secret_string_in_base64)
+    
+
+@pytest.mark.parametrize("input,result",[
+    (b"ICE ICE BABY\x04\x04\x04\x04", True),
+    (b"ICE ICE BABY\x05\x05\x05\x05", False),
+    (b"ICE ICE BABY\x01\x02\x03\x04", False),
+])
+def Challenge_PKCS_7_padding_validation(input: bytes, result: bool):
+    assert main.PKCS_7_padding_validation(input) == result
