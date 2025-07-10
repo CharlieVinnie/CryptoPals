@@ -1,5 +1,7 @@
 from Base64String import Base64String
 from HexString import HexString
+from PreAppendingECBencryption import PreAppendingECBencryption
+from PreAppendingECBsecretBreaker import pre_appending_ECB_secret_breaker
 from SingleByteXorCipherer import cipher_single_xored_HexString
 from SingleByteXorDetecter import detect_single_byte_xored_HexString
 from RepeatingKeyXorEncoder import RepeatingKeyXorEncoder
@@ -74,3 +76,8 @@ def Byte_at_a_time_ECB_decryption_simple(oracle: NaiveAppendingECBencryption):
 
 def ECB_cut_and_paste(hackee: ECBkeqvHackee):
     return ECBkeqvCracker(hackee)
+
+def Byte_at_a_time_ECB_decryption_harder(oracle: PreAppendingECBencryption):
+    result = Base64String.from_hex(pre_appending_ECB_secret_breaker(oracle))
+    print(str(result))
+    return result

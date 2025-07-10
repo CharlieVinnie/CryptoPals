@@ -1,4 +1,5 @@
 import pytest
+from PreAppendingECBencryption import PreAppendingECBencryption
 import main
 from file_loader import load_file_as_it_is, load_file_as_single_string
 import random
@@ -113,7 +114,7 @@ def Challenge_ECB_CBC_detection_oracle(seed: int, rounds: int, english_text_file
         assert main.ECB_CBC_detection_oracle(input) == type
         
 
-@pytest.mark.parametrize("secret_file",["Byte_at_a_time_ECB_decryption_simple_problem.txt"])
+@pytest.mark.parametrize("secret_file",["Byte_at_a_time_ECB_decryption_problem.txt"])
 def Challenge_Byte_at_a_time_ECB_decryption_simple(secret_file: str):
     secret_string_in_base64 = load_file_as_single_string(secret_file)
     oracle = NaiveAppendingECBencryption.create(HexString.from_base64_str(secret_string_in_base64))
@@ -148,3 +149,8 @@ def Challenge_ECB_cut_and_paste():
     profile = hackee.decrypt_profile(encrypted_profile)
     assert profile["role"] == "admin"
     
+@pytest.mark.parametrize("secret_file",["Byte_at_a_time_ECB_decryption_problem.txt"])
+def Challenge_Byte_at_a_time_ECB_decryption_harder(secret_file: str):
+    secret_string_in_base64 = load_file_as_single_string(secret_file)
+    oracle = PreAppendingECBencryption.create(HexString.from_base64_str(secret_string_in_base64))
+    assert main.Byte_at_a_time_ECB_decryption_harder(oracle) == Base64String.from_base64_str(secret_string_in_base64)
