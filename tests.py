@@ -179,7 +179,8 @@ def test_CBCbitflippingHackeeAcceptsValidUserdata(comment1: str, comment2: str, 
     prefix = f"comment1={comment1};userdata="
     suffix = f";comment2={comment2}"
     hackee = CBCbitflippingHackee(prefix, suffix)
-    profile = hackee.profile_for(userdata)
+    code = hackee.profile_for(userdata)
+    profile = hackee.decrypt_profile(code)
     assert profile == {"comment1": comment1, "comment2": comment2, "userdata": userdata}
 
 
@@ -203,6 +204,7 @@ def test_CBCbitflippingHackeeRejectsInvalidUserdata(comment1: str, comment2: str
 def Challenge_CBC_bitflipping_attacks(prefix: str, suffix: str):
     hackee = CBCbitflippingHackee(prefix, suffix)
     userdata = main.CBC_bitflipping_attacks(hackee)
-    profile = hackee.profile_for(userdata)
+    code = hackee.profile_for(userdata)
+    profile = hackee.decrypt_profile(code)
     assert profile["admin"] == "true"
     
