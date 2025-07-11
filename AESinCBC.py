@@ -6,9 +6,11 @@ from file_loader import load_file_as_single_string
 from paddingPKCS7 import add_padding_PKCS_7, remove_padding_PKCS_7
 
 def AES_128_CBC_encrypt(input: HexString, key: HexString, iv: HexString):
-    result = iv
+    result = HexString()
+    last_block = iv
     for block in block_split(add_padding_PKCS_7(input, 16), 16):
-        result += AESencrypt(block ^ result[-16:], key)
+        last_block = AESencrypt(block ^ last_block, key)
+        result += last_block
     return result
 
 def AES_128_CBC_decrypt(input: HexString, key: HexString, iv: HexString):

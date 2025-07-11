@@ -1,15 +1,17 @@
 import pytest
 from CBCbitflippingHackee import CBCbitflippingHackee
 from PreAppendingECBencryption import PreAppendingECBencryption
+from Profile import Profile
 import main
 from file_loader import load_file_as_it_is, load_file_as_single_string
 import random
 from RandomECBorCBCencryptor import random_ECB_or_CBC_encrypt
-from HexString import HexString
+from HexString import HexString, H
 from NaiveAppendingECBencryption import NaiveAppendingECBencryption
 from Base64String import Base64String
 from ECBkeqvHackee import ECBkeqvHackee
 import re
+from AESinCBC import AES_128_CBC_encrypt
 
 @pytest.mark.parametrize("hex_input, base64_output", [(
     "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d",
@@ -98,6 +100,15 @@ def Challenge_Implement_PKCS_7_padding(input: str, padding_size: int, output: st
 )])
 def Challenge_Implement_CBC_mode(input_file: str, output_file: str):
     assert main.AES_in_CBC_mode(input_file) == load_file_as_it_is(output_file)
+   
+   
+@pytest.mark.parametrize("input_file,output_file",[(
+    "AESinCBCnaiveDecodeSolution.txt",
+    "AESinCBCnaiveDecode.txt",
+)])
+def test_CBC_encryption(input_file: str, output_file: str):
+    assert AES_128_CBC_encrypt(H(load_file_as_it_is(input_file)), HexString.from_raw_str("YELLOW SUBMARINE"), HexString((0).to_bytes(16, 'big'))) == HexString.from_base64_str(load_file_as_single_string(output_file))
+   
     
 
 @pytest.mark.parametrize("seed, rounds", [(330312,30)])
