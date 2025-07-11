@@ -1,4 +1,5 @@
 from Base64String import Base64String
+from CBCbitflippingAttack import CBC_bitflipping_attack
 from CBCbitflippingHackee import CBCbitflippingHackee
 from HexString import HexString
 from PKCS7Validator import PKCS_7_validate
@@ -88,4 +89,4 @@ def PKCS_7_padding_validation(input: bytes):
     return bytes(PKCS_7_validate(HexString(input)))
 
 def CBC_bitflipping_attacks(hackee: CBCbitflippingHackee):
-    return ""
+    return CBC_bitflipping_attack(hackee)

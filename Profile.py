@@ -1,17 +1,25 @@
+from HexString import HexString
 from typing import Callable
 
-Profile = dict[str,str]
+class Profile(dict[HexString,HexString]):
+
+    def __getitem__(self, key: str|HexString):
+        if isinstance(key, str):
+            return super().__getitem__(HexString.from_raw_str(key))
+        else:
+            return super().__getitem__(key)
+    
 
 class ProfileCreator:
-    def __init__(self, generated_fields: dict[str, Callable[[],str]], input_fields: set[str]) :
+    def __init__(self, generated_fields: dict[HexString, Callable[[],HexString]], input_fields: set[HexString]) :
         self.generated_fields = generated_fields
         self.input_fields = input_fields
         
         if input_fields.intersection(generated_fields.keys()):
             raise ValueError("input_fields and generated_fields overlap")
         
-    def create(self, input: dict[str,str]):
-        profile: dict[str,str] = {}
+    def create(self, input: dict[HexString,HexString]):
+        profile: dict[HexString,HexString] = {}
         if input.keys() != self.input_fields:
             raise ValueError("input fields do not match")
         
@@ -20,5 +28,5 @@ class ProfileCreator:
         for key,generation in self.generated_fields.items():
             profile[key] = generation()
             
-        return profile
+        return Profile(profile)
     

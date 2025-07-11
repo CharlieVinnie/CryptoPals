@@ -1,5 +1,5 @@
 from ECBkeqvHackee import ECBkeqvHackee
-from HexString import HexString
+from HexString import HexString, H
 from random import randint
 from paddingPKCS7 import add_padding_PKCS_7
 
@@ -11,7 +11,7 @@ def ECBkeqvCracker(hackee: ECBkeqvHackee):
         count = randint(1,16)
         encrypted_profile = hackee.profile_for(A_s(count))
         profile = hackee.decrypt_profile(encrypted_profile)
-        prefix_length = len("email="+profile["email"]+"&uid="+profile["uid"]+"&role=")
+        prefix_length = len(H("email=")+profile[H("email")]+H("&uid=")+profile[H("uid")]+H("&role="))
         if prefix_length%16==0:
             break
     

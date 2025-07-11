@@ -137,8 +137,8 @@ def Challenge_Byte_at_a_time_ECB_decryption_simple(secret_file: str):
 def test_ECBkeqvHackeeAcceptsValidEmail(email: str):
     hackee = ECBkeqvHackee()
     profile = hackee.decrypt_profile(hackee.profile_for(email))
-    assert profile["email"] == email
-    assert profile["role"] == "user"
+    assert profile["email"] == H(email)
+    assert profile["role"] == H("user")
     
 
 @pytest.mark.parametrize("email",["1&2.com","1=2.com"])
@@ -151,15 +151,15 @@ def test_ECBkeqvHackeeRejectsInvalidEmail(email: str):
 @pytest.mark.parametrize("email",["1@2.com"])
 def test_ECBkeqvHackeeEncodesInCorrectWay(email: str):
     hackee = ECBkeqvHackee()
-    code = hackee._encode_profile_with_email(email) # pyright: ignore [reportPrivateUsage]
-    assert re.match(rf"^email={email}&uid=[0-9]+&role=user$", code)
+    code = hackee._encode_profile_with_email(H(email)) # pyright: ignore [reportPrivateUsage]
+    assert re.match(rf"^email={email}&uid=[0-9]+&role=user$", code.to_raw_str())
 
 
 def Challenge_ECB_cut_and_paste():
     hackee = ECBkeqvHackee()
     encrypted_profile = main.ECB_cut_and_paste(hackee)
     profile = hackee.decrypt_profile(encrypted_profile)
-    assert profile["role"] == "admin"
+    assert profile["role"] == H("admin")
     
 @pytest.mark.parametrize("secret_file",["Byte_at_a_time_ECB_decryption_problem.txt"])
 def Challenge_Byte_at_a_time_ECB_decryption_harder(secret_file: str):
@@ -188,10 +188,10 @@ def Challenge_PKCS_7_padding_validation(input: bytes, result: None|bytes):
 )])
 @pytest.mark.parametrize("userdata",["123","user","user123","123user"])
 def test_CBCbitflippingHackeeEncodesInCorrectWay(comment1: str, comment2: str, userdata: str):
-    prefix = f"comment1={comment1};userdata="
-    suffix = f";comment2={comment2}"
+    prefix = H(f"comment1={comment1};userdata=")
+    suffix = H(f";comment2={comment2}")
     hackee = CBCbitflippingHackee(prefix, suffix)
-    assert hackee._profile_code_from_userdata(userdata) == f"{prefix}{userdata}{suffix}" # pyright: ignore [reportPrivateUsage]
+    assert hackee._profile_code_from_userdata(H(userdata)) == H(f"{prefix.to_raw_str()}{userdata}{suffix.to_raw_str()}") # pyright: ignore [reportPrivateUsage]
 
 
 @pytest.mark.parametrize("comment1,comment2",[(
@@ -200,11 +200,11 @@ def test_CBCbitflippingHackeeEncodesInCorrectWay(comment1: str, comment2: str, u
 )])
 @pytest.mark.parametrize("userdata",["123","user","user123","123user"])
 def test_CBCbitflippingHackeeAcceptsValidUserdata(comment1: str, comment2: str, userdata: str):
-    prefix = f"comment1={comment1};userdata="
-    suffix = f";comment2={comment2}"
+    prefix = H(f"comment1={comment1};userdata=")
+    suffix = H(f";comment2={comment2}")
     hackee = CBCbitflippingHackee(prefix, suffix)
-    profile = hackee.decrypt_profile(hackee.profile_for(userdata))
-    assert profile == {"comment1": comment1, "comment2": comment2, "userdata": userdata}
+    profile = hackee.decrypt_profile(hackee.profile_for(H(userdata)))
+    assert profile == Profile({H("comment1"): H(comment1), H("comment2"): H(comment2), H("userdata"): H(userdata)})
 
 
 @pytest.mark.parametrize("comment1,comment2",[(
@@ -213,11 +213,11 @@ def test_CBCbitflippingHackeeAcceptsValidUserdata(comment1: str, comment2: str, 
 )])
 @pytest.mark.parametrize("userdata",["admin=true","1;admin=true","1+1=2","break;"])
 def test_CBCbitflippingHackeeRejectsInvalidUserdata(comment1: str, comment2: str, userdata: str):
-    prefix = f"comment1={comment1};userdata="
-    suffix = f";comment2={comment2}"
+    prefix = H(f"comment1={comment1};userdata=")
+    suffix = H(f";comment2={comment2}")
     hackee = CBCbitflippingHackee(prefix, suffix)
     with pytest.raises(ValueError):
-        hackee.profile_for(userdata)
+        hackee.profile_for(H(userdata))
 
 
 @pytest.mark.parametrize("prefix,suffix",[(
@@ -225,8 +225,10 @@ def test_CBCbitflippingHackeeRejectsInvalidUserdata(comment1: str, comment2: str
     r";comment2=%20like%20a%20pound%20of%20bacon",
 )])
 def Challenge_CBC_bitflipping_attacks(prefix: str, suffix: str):
-    hackee = CBCbitflippingHackee(prefix, suffix)
-    code = main.CBC_bitflipping_attacks(hackee)
-    profile = hackee.decrypt_profile(code)
-    assert profile["admin"] == "true"
+    hackee = CBCbitflippingHackee(H(prefix), H(suffix))
+    ciphertext = main.CBC_bitflipping_attacks(hackee)
+    profile = hackee.decrypt_profile(ciphertext)
+    print(profile)
+    print(hackee.prefix().to_raw_str())
+    assert profile["admin"] == H("true")
     

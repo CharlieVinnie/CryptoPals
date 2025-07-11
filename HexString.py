@@ -20,6 +20,9 @@ class HexString:
     def from_base64_str(cls, string: str):
         return cls(base64.b64decode(string))
 
+    def __hash__(self):
+        return hash(self.content)
+
     def __bytes__(self):
         return self.content
     
@@ -28,6 +31,9 @@ class HexString:
     
     def __len__(self):
         return len(self.content)
+    
+    def __contains__(self, item: int):
+        return item in self.content
     
     @overload
     def __getitem__(self, index: slice) -> HexString: ...
@@ -57,8 +63,21 @@ class HexString:
             return NotImplemented
         return self.content == other.content
     
+    def __repr__(self):
+        return repr(self.content)
+    
     def to_raw_str(self):
         return self.content.decode('ascii')
     
     def to_english_string(self):
         return EnglishString(self.to_raw_str())
+
+    def join(self, strings: list[HexString]):
+        return HexString(self.content.join([string.content for string in strings]))
+    
+    def split(self, seperator: HexString):
+        return [HexString(string) for string in self.content.split(seperator.content)]
+
+
+def H(string: str):
+    return HexString.from_raw_str(string)
