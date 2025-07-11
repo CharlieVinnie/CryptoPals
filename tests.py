@@ -170,6 +170,19 @@ def Challenge_PKCS_7_padding_validation(input: bytes, result: None|bytes):
         assert main.PKCS_7_padding_validation(input) == result
         
 
+
+@pytest.mark.parametrize("comment1,comment2",[(
+    r"cooking%20MCs",
+    r"%20like%20a%20pound%20of%20bacon",
+)])
+@pytest.mark.parametrize("userdata",["123","user","user123","123user"])
+def test_CBCbitflippingHackeeEncodesInCorrectWay(comment1: str, comment2: str, userdata: str):
+    prefix = f"comment1={comment1};userdata="
+    suffix = f";comment2={comment2}"
+    hackee = CBCbitflippingHackee(prefix, suffix)
+    assert hackee._profile_code_from_userdata(userdata) == f"{prefix}{userdata}{suffix}" # pyright: ignore [reportPrivateUsage]
+
+
 @pytest.mark.parametrize("comment1,comment2",[(
     r"cooking%20MCs",
     r"%20like%20a%20pound%20of%20bacon",
@@ -179,8 +192,7 @@ def test_CBCbitflippingHackeeAcceptsValidUserdata(comment1: str, comment2: str, 
     prefix = f"comment1={comment1};userdata="
     suffix = f";comment2={comment2}"
     hackee = CBCbitflippingHackee(prefix, suffix)
-    code = hackee.profile_for(userdata)
-    profile = hackee.decrypt_profile(code)
+    profile = hackee.decrypt_profile(hackee.profile_for(userdata))
     assert profile == {"comment1": comment1, "comment2": comment2, "userdata": userdata}
 
 
