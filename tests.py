@@ -215,8 +215,7 @@ def test_CBCbitflippingHackeeRejectsInvalidUserdata(comment1: str, comment2: str
 )])
 def Challenge_CBC_bitflipping_attacks(prefix: str, suffix: str):
     hackee = CBCbitflippingHackee(prefix, suffix)
-    userdata = main.CBC_bitflipping_attacks(hackee)
-    code = hackee.profile_for(userdata)
+    code = main.CBC_bitflipping_attacks(hackee)
     profile = hackee.decrypt_profile(code)
     assert profile["admin"] == "true"
     
